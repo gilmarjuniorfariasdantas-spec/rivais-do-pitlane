@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salas | Rivais do PitLane</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>RIVAIS DO PITLANE</h1>
+        <p>A rivalidade começa nos boxes.</p>
+    </header>
+
+    <main>
+        <section class="menu" id="menuSala">
+            <h2>JOGAR COM AMIGO</h2>
+
+            <button onclick="criarSala()">CRIAR SALA</button>
+
+            <h3>ENTRAR EM UMA SALA</h3>
+
+            <input
+                type="text"
+                id="codigoSala"
+                placeholder="Digite o código da sala"
+                maxlength="6"
+            >
+
+            <button onclick="entrarSala()">ENTRAR NA SALA</button>
+
+            <button onclick="voltarMenu()">VOLTAR</button>
+
+            <p id="mensagem"></p>
+        </section>
+
+        <section class="menu" id="salaEspera" hidden>
+            <h2>SALA DE ESPERA</h2>
+
+            <p>Código da sala:</p>
+            <h1 id="codigoExibido">------</h1>
+
+            <h3>JOGADORES NA SALA</h3>
+
+            <div id="listaJogadores">
+                Aguardando jogadores...
+            </div>
+
+            <p id="statusSala">Aguardando participantes...</p>
+
+            <button id="botaoIniciar"
+                onclick="iniciarPartida()"
+                disabled>
+                INICIAR PARTIDA
+            </button>
+
+            <button onclick="voltarMenu()">SAIR DA SALA</button>
+        </section>
+        <section class="menu" id="telaPartida" hidden>
+    <h2>RIVAIS DO PITLANE</h2>
+
+    <h3>🏁 TABULEIRO</h3>
+
+    <div id="tabuleiro">
+        <div class="casa">1</div>
+        <div class="casa">2</div>
+        <div class="casa">3</div>
+        <div class="casa">4</div>
+        <div class="casa">5</div>
+        <div class="casa">6</div>
+        <div class="casa">7</div>
+        <div class="casa">8</div>
+        <div class="casa">9</div>
+        <div class="casa">10</div>
+        <div class="casa">11</div>
+        <div class="casa">12</div>
+        <div class="casa">13</div>
+        <div class="casa">14</div>
+        <div class="casa">15</div>
+        <div class="casa">16</div>
+    </div>
+    <div id="painelFinanceiro">
+    <h3>💰 PATRIMÔNIO</h3>
+
+    <div class="saldo-jogador">
+        <span>🔴 J1</span>
+        <strong id="dinheiroJ1">$20m</strong>
+    </div>
+
+    <div class="saldo-jogador">
+        <span>🔵 J2</span>
+        <strong id="dinheiroJ2">$20m</strong>
+    </div>
+</div>
+<div id="dadoVisual">🎲</div>
+
+<button id="botaoDado" onclick="lancarDado()" disabled>
+    LANÇAR DADO
+</button>
+
+<p id="resultadoDado">Aguardando sua vez...</p>
+    <p id="statusPartida">A partida começou!</p>
+</section>
+    </main>
+
+    <footer>
+        RIVAIS DO PITLANE © 2026
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
