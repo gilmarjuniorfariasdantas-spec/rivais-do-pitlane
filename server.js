@@ -13,41 +13,58 @@ app.use(express.static(path.join(__dirname, "public")));
 const salas = {};
 
 function atualizarSala(codigo) {
-    io.to(codigo).emit("atualizar-sala", salas[codigo]);
+    const sala = salas[codigo];
+
+    const jogadores = sala.jogadores.map((id, indice) => ({
+        nome: `Jogador ${indice + 1}`,
+        anfitriao: id === sala.anfitriao
+    }));
+
+    io.to(codigo).emit("atualizar-sala", {
+        jogadores: jogadores,
+        quantidade: sala.jogadores.length,
+        anfitriao: sala.anfitriao
+    });
 }
 
 // CONEXÃO
 io.on("connection", (socket) => {
 
     // CRIAR SALA
-    socket.on("criar-sala", (codigo) => {
+    
+socket.on("criar-sala", () => {
 
-        if (salas[codigo]) {
-            socket.emit("erro-sala", "Essa sala já existe!");
-            return;
-        }
+    let codigo;
 
-        salas[codigo] = {
-            jogadores: [socket.id],
-            anfitriao: socket.id,
+    do {
+        codigo = Math.random().toString(36)
+            .substring(2, 8).toUpperCase();
+    } while (salas[codigo]);
 
-            posicoes: {
-                [socket.id]: 1
-            },
+    salas[codigo] = {
+        jogadores: [socket.id],
+        anfitriao: socket.id,
 
-            dinheiro: {
-                [socket.id]: 20
-            },
+        posicoes: {
+            [socket.id]: 1
+        },
 
-            turno: socket.id,
-            partidaIniciada: false
-        };
+        dinheiro: {
+            [socket.id]: 20
+        },
 
-        socket.join(codigo);
-        socket.data.sala = codigo;
+        turno: socket.id,
+        partidaIniciada: false
+    };
 
-        atualizarSala(codigo);
-    });
+    socket.join(codigo);
+    socket.data.sala = codigo;
+
+    socket.emit("sala-criada", codigo);
+
+    atualizarSala(codigo);
+});
+
 
     // ENTRAR NA SALA
     socket.on("entrar-sala", (codigo) => {
